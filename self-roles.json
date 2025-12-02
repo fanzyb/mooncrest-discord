@@ -1,0 +1,56 @@
+[
+  {
+    "menuPlaceholder": "Select your Expedition Roles...",
+    "maxSelect": 1,
+    "roles": [
+      {
+        "label": "Expedition",
+        "description": "Get the Expedition role.",
+        "roleId": "1417041787318702101",
+        "emoji": "1417377086426976338"
+      }
+    ]
+  },
+  {
+    "menuPlaceholder": "Select your Cosmetic Roles...",
+    "maxSelect": 1,
+    "roles": [
+      {
+        "label": "Blue",
+        "description": "Get the Blue role.",
+        "roleId": "1420346216834797723",
+        "emoji": "💙"
+      },
+      {
+        "label": "Pink",
+        "description": "Get the Pink role.",
+        "roleId": "1420346541104697344",
+        "emoji": "💗"
+      },
+      {
+        "label": "Green",
+        "description": "Get the Green role.",
+        "roleId": "1420346459731005530",
+        "emoji": "💚"
+      },
+      {
+        "label": "Purple",
+        "description": "Get the Purple role.",
+        "roleId": "1420346407344148570",
+        "emoji": "💜"
+      },
+      {
+        "label": "Red",
+        "description": "Get the Red role.",
+        "roleId": "1420346287575928852",
+        "emoji": "❤"
+      },
+      {
+        "label": "Yellow",
+        "description": "Get the Yellow role.",
+        "roleId": "1420346370044334235",
+        "emoji": "💛"
+      }
+    ]
+  }
+]

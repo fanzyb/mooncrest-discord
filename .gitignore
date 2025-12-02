@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment Variables (SENSITIVE!)
+.env
+.env.local
+.env.*.local
+
+# Firebase Admin SDK (SENSITIVE!)
+firebase-adminsdk.json
+*-firebase-adminsdk-*.json
+
+# Config files with sensitive data
+config.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files (optional, bisa dihapus jika mau upload test files)
+test-*.js
+cekgemini.js
+clear.js
+clearguild.js
+backup.js
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Build outputs (if any)
+dist/
+build/

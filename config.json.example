@@ -1,0 +1,18 @@
+{
+  "guildId": "YOUR_GUILD_ID",
+  "groupId": "YOUR_ROBLOX_GROUP_ID",
+  "verifiedRoleId": "YOUR_VERIFIED_ROLE_ID",
+  "xpManagerRoles": ["ROLE_ID_1", "ROLE_ID_2"],
+  "rewardManagerRoles": ["ROLE_ID_1", "ROLE_ID_2"],
+  "xpLogChannelId": "YOUR_XP_LOG_CHANNEL_ID",
+  "errorLogChannelId": "YOUR_ERROR_LOG_CHANNEL_ID",
+  "hallOfFameChannelId": "YOUR_HALL_OF_FAME_CHANNEL_ID",
+  "rankToRoleMapping": {
+    "Rank Name": "DISCORD_ROLE_ID"
+  },
+  "mountains": [
+    "Mountain 1",
+    "Mountain 2"
+  ],
+  "note": "Copy this file to config.json and fill in your actual server/role IDs"
+}
