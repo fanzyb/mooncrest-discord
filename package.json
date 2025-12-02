@@ -1,6 +1,6 @@
 {
-  "name": "roblox-xp-bot",
-  "version": "2.2.2",
+  "name": "mooncrest-discord-bot",
+  "version": "2.2.9",
   "type": "module",
   "main": "index.js",
   "scripts": {

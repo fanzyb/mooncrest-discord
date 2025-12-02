@@ -74,10 +74,10 @@ Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **
    
    Required variables:
    - `TOKEN` - Discord bot token
+   - `GUILD_ID` - Discord server/guild ID
    - `CLIENT_ID` - Discord application client ID
-   - `ROBLOX_API_KEY` - Roblox Open Cloud API key (for rank sync)
-   - `DEEPL_API_KEY` - DeepL API key (for translation)
-   - `GEMINI_API_KEY` - Google Gemini API key (optional)
+   - `GEMINI_API_KEY` - Google Gemini API key
+   - `ROBLOX_COOKIE` - Roblox authentication cookie
 
 4. **Configure server settings**
    
