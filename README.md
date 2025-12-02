@@ -31,8 +31,8 @@ Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **
 - **Custom Rewards** with role-based permissions
 
 ### 🌐 Translation & Communication
-- **Real-time Translation** (DeepL API)
-- **Voice TTS** (`/say`) - Multi-language support
+- **Real-time Translation** (`/translate`) - Powered by Gemini AI
+- **Daily Motivational Quotes** (`/quote`) - AI-generated quotes
 - **Temporary Voice Channels** - Auto-create/delete
 - **Ticket System** with transcript support
 
@@ -50,7 +50,7 @@ Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **
 - Node.js v18 or higher
 - Discord Bot Token
 - Firebase Project (Firestore)
-- Roblox Open Cloud API Key (optional, for rank sync)
+- Roblox Account Cookie (for rank sync & verification)
 
 ### Setup Steps
 
