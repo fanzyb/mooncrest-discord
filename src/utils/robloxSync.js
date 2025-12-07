@@ -1,4 +1,4 @@
-import RobloxHelper from "../../helpers/RobloxHelper.js";
+import RobloxOpenCloudHelper from "../../helpers/RobloxOpenCloudHelper.js";
 import config from "../config.json" with { type: "json" };
 import { getLevel } from "./helpers.js";
 
@@ -6,15 +6,31 @@ import { getLevel } from "./helpers.js";
  * Sync user's Roblox rank based on their Discord XP level
  * @param {string} robloxId - User's Roblox ID
  * @param {number} xp - User's current XP
+ * @param {Object} client - Discord client with robloxHelper instance
  * @returns {Promise<{success: boolean, message: string}>}
  */
-export async function syncRobloxRank(robloxId, xp) {
+export async function syncRobloxRank(robloxId, xp, client = null) {
     try {
-        const cookie = process.env.ROBLOX_COOKIE;
+        // Use global singleton instance
+        let roblox = client?.robloxHelper;
 
-        if (!cookie || cookie === 'MASUKKAN_COOKIE_DISINI') {
-            console.warn('[RobloxSync] ROBLOX_COOKIE not configured, skipping rank sync');
-            return { success: false, message: 'Cookie not configured' };
+        // Fallback: create new instance if client not provided (backward compatibility)
+        if (!roblox) {
+            const apiKey = process.env.ROBLOX_OPENCLOUD_API_KEY;
+            if (!apiKey || apiKey === 'your_api_key_here') {
+                console.warn('[RobloxSync] ROBLOX_OPENCLOUD_API_KEY not configured, skipping rank sync');
+                return { success: false, message: 'API Key not configured' };
+            }
+            console.warn('[RobloxSync] ⚠️ Using fallback authentication (client not provided)');
+            roblox = new RobloxOpenCloudHelper(apiKey);
+            await roblox.initialize();
+        }
+
+        // Verify authentication
+        const currentUser = roblox.getCurrentUser();
+        if (!currentUser) {
+            console.error('[RobloxSync] ❌ Roblox helper not authenticated');
+            return { success: false, message: 'Roblox bot not authenticated' };
         }
 
         // Get user's level based on XP
@@ -27,10 +43,6 @@ export async function syncRobloxRank(robloxId, xp) {
             console.warn(`[RobloxSync] No role mapping for level: ${levelName}`);
             return { success: false, message: `No role mapping for level: ${levelName}` };
         }
-
-        // Initialize Roblox helper
-        const roblox = new RobloxHelper(cookie);
-        await roblox.initialize();
 
         const groupId = config.groupId;
 

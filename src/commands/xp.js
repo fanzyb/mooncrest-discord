@@ -156,7 +156,7 @@ export async function execute(interaction) {
 
         // Auto-sync Roblox rank if level changed
         if (newLevel !== oldLevel) {
-            syncRobloxRank(user.robloxId, user.xp).catch(err => {
+            syncRobloxRank(user.robloxId, user.xp, interaction.client).catch(err => {
                 console.error('[XP] Roblox rank sync error:', err);
             });
         }

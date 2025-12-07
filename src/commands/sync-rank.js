@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import RobloxHelper from "../../helpers/RobloxHelper.js";
 import config from "../config.json" with { type: "json" };
 import { findUser, findUserByDiscordId, findLeaderboardUsers } from "../db/firestore.js";
 import { getLevel } from "../utils/helpers.js";
@@ -20,23 +19,14 @@ export async function execute(interaction) {
         await interaction.deferReply();
 
         const target = interaction.options.getString("target");
-        const robloxCookie = process.env.ROBLOX_COOKIE;
 
-        // Validate cookie
-        if (!robloxCookie || robloxCookie === 'MASUKKAN_COOKIE_DISINI') {
+        // Use global singleton Roblox instance
+        const roblox = interaction.client.robloxHelper;
+
+        // Check if Roblox helper is initialized
+        if (!roblox || !roblox.getCurrentUser()) {
             return interaction.editReply({
-                content: "❌ ROBLOX_COOKIE not configured in .env file!"
-            });
-        }
-
-        // Initialize RobloxHelper
-        const roblox = new RobloxHelper(robloxCookie);
-
-        try {
-            await roblox.initialize();
-        } catch (error) {
-            return interaction.editReply({
-                content: `❌ Failed to initialize Roblox bot:\n\`\`\`${error.message}\`\`\``
+                content: "❌ **Roblox bot not authenticated!**\n\nBot belum login ke Roblox atau cookie expired.\nSilakan restart bot atau hubungi admin untuk update cookie."
             });
         }
 

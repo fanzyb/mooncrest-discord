@@ -26,6 +26,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 // Import modules
 import config from "./src/config.json" with { type: "json" };
 import { getRobloxGroupData, getLevel, syncRankRole, achievementsConfig, getRobloxUser } from "./src/utils/helpers.js";
+import RobloxOpenCloudHelper from "./helpers/RobloxOpenCloudHelper.js";
 import { handleComponentInteraction } from "./src/utils/components.js";
 import {
     getLastAnnouncedMilestone,
@@ -167,7 +168,98 @@ client.on("clientReady", async () => {
     transChannels.forEach(ch => client.translationChannels.set(ch.channelId, ch));
     console.log(`[Translation] Loaded ${transChannels.length} active channels.`);
 
+    // ========================================================
+    // 🔐 INITIALIZE ROBLOX AUTHENTICATION (OPEN CLOUD API)
+    // ========================================================
+    if (process.env.ROBLOX_OPENCLOUD_API_KEY && process.env.ROBLOX_OPENCLOUD_API_KEY !== 'your_api_key_here') {
+        try {
+            console.log('[Roblox] 🔄 Initializing Open Cloud API authentication...');
+            client.robloxHelper = new RobloxOpenCloudHelper(process.env.ROBLOX_OPENCLOUD_API_KEY);
+            await client.robloxHelper.initialize();
+            console.log('[Roblox] ✅ Open Cloud API authentication successful!');
 
+            // Health check every 30 minutes
+            setInterval(async () => {
+                try {
+                    const user = client.robloxHelper.getCurrentUser();
+                    if (!user) {
+                        console.warn('[Roblox] ⚠️ API Key validation failed. Re-initializing...');
+                        await client.robloxHelper.initialize();
+                        console.log('[Roblox] ✅ Re-initialization successful');
+                    } else {
+                        console.log('[Roblox] 💚 Health check passed');
+                    }
+                } catch (error) {
+                    console.error('[Roblox] ❌ Health check failed:', error.message);
+
+                    // Send notification to Discord
+                    const xpLogChannelId = config.xpLogChannelId;
+                    if (xpLogChannelId) {
+                        try {
+                            const channel = client.channels.cache.get(xpLogChannelId);
+                            if (channel) {
+                                const errorEmbed = new EmbedBuilder()
+                                    .setTitle('⚠️ Roblox Open Cloud API Failed')
+                                    .setDescription(
+                                        '**API Key mungkin invalid atau permission tidak cukup!**\n\n' +
+                                        '**Error:** `' + error.message + '`\n\n' +
+                                        '**Action Required:**\n' +
+                                        '1. Check `ROBLOX_OPENCLOUD_API_KEY` di file `.env`\n' +
+                                        '2. Pastikan API Key punya permission `group:read` dan `group:write`\n' +
+                                        '3. Restart bot\n\n' +
+                                        '**Impact:** Auto rank sync tidak akan berfungsi sampai API key diperbaiki.'
+                                    )
+                                    .setColor('#FF0000')
+                                    .setTimestamp();
+
+                                await channel.send({ embeds: [errorEmbed] });
+                            }
+                        } catch (notifError) {
+                            console.error('[Roblox] Failed to send notification:', notifError.message);
+                        }
+                    }
+                }
+            }, 1000 * 60 * 30); // 30 minutes
+
+        } catch (error) {
+            console.error('[Roblox] ❌ Initial authentication failed:', error.message);
+
+            // Send notification to Discord
+            const xpLogChannelId = config.xpLogChannelId;
+            if (xpLogChannelId) {
+                try {
+                    const channel = client.channels.cache.get(xpLogChannelId);
+                    if (channel) {
+                        const errorEmbed = new EmbedBuilder()
+                            .setTitle('❌ Roblox Open Cloud API Failed on Startup')
+                            .setDescription(
+                                '**Bot gagal initialize Open Cloud API saat startup!**\n\n' +
+                                '**Error:** `' + error.message + '`\n\n' +
+                                '**Possible Causes:**\n' +
+                                '- API Key invalid atau expired\n' +
+                                '- API Key tidak punya permission yang cukup\n' +
+                                '- Network issues\n' +
+                                '- Roblox API down\n\n' +
+                                '**Action Required:**\n' +
+                                '1. Check `ROBLOX_OPENCLOUD_API_KEY` di file `.env`\n' +
+                                '2. Pastikan API Key punya permission `group:read` dan `group:write`\n' +
+                                '3. Update dengan API Key yang valid\n' +
+                                '4. Restart bot\n\n' +
+                                '**Impact:** Auto rank sync TIDAK AKTIF sampai masalah ini diperbaiki.'
+                            )
+                            .setColor('#FF0000')
+                            .setTimestamp();
+
+                        await channel.send({ content: '<@&' + config.adminRoleId + '>', embeds: [errorEmbed] });
+                    }
+                } catch (notifError) {
+                    console.error('[Roblox] Failed to send notification:', notifError.message);
+                }
+            }
+        }
+    } else {
+        console.warn('[Roblox] ⚠️ ROBLOX_OPENCLOUD_API_KEY not configured. Rank sync features disabled.');
+    }
 
     // Status Statis (Sesuai Request)
     async function updatePresence() {

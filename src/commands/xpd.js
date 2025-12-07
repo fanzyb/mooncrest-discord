@@ -167,7 +167,7 @@ export async function execute(interaction) {
         // Auto Role Logic (Sama seperti file asli)
         if (newLevel !== oldLevel) {
             // Auto-sync Roblox rank
-            syncRobloxRank(user.robloxId, user.xp).catch(err => {
+            syncRobloxRank(user.robloxId, user.xp, interaction.client).catch(err => {
                 console.error('[XPD] Roblox rank sync error:', err);
             });
 
