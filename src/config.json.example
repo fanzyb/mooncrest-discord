@@ -1,18 +1,166 @@
 {
+  "groupId": 390278660,
   "guildId": "YOUR_GUILD_ID",
-  "groupId": "YOUR_ROBLOX_GROUP_ID",
-  "verifiedRoleId": "YOUR_VERIFIED_ROLE_ID",
-  "xpManagerRoles": ["ROLE_ID_1", "ROLE_ID_2"],
-  "rewardManagerRoles": ["ROLE_ID_1", "ROLE_ID_2"],
+  "robloxGroupLink": "https://www.roblox.com/communities/YOUR_GROUP_ID/Group-Name",
+  "xpManagerRoles": ["YOUR_XP_MANAGER_ROLE_ID"],
   "xpLogChannelId": "YOUR_XP_LOG_CHANNEL_ID",
+  "dailyQuoteChannelId": "YOUR_DAILY_QUOTE_CHANNEL_ID",
+  "embedColor": "#1B1464",
+  "rewardLogChannelId": "YOUR_REWARD_LOG_CHANNEL_ID",
+  "rewardManagerRoles": ["YOUR_REWARD_MANAGER_ROLE_ID"],
+  "debugManagerRoles": ["YOUR_DEBUG_MANAGER_ROLE_ID"],
+  "milestoneChannelId": "YOUR_MILESTONE_CHANNEL_ID",
+  "memberCountMilestones": [150, 300, 500, 1000, 2000, 3000],
   "errorLogChannelId": "YOUR_ERROR_LOG_CHANNEL_ID",
-  "hallOfFameChannelId": "YOUR_HALL_OF_FAME_CHANNEL_ID",
-  "rankToRoleMapping": {
-    "Rank Name": "DISCORD_ROLE_ID"
-  },
-  "mountains": [
-    "Mountain 1",
-    "Mountain 2"
+  "autoJoinRoleId": "YOUR_AUTO_JOIN_ROLE_ID",
+  "eventManagerRoles": ["YOUR_EVENT_MANAGER_ROLE_ID"],
+  "eventLogChannelId": "YOUR_EVENT_LOG_CHANNEL_ID",
+  "modLogChannelId": "YOUR_MOD_LOG_CHANNEL_ID",
+  "auditLogChannelId": "YOUR_AUDIT_LOG_CHANNEL_ID",
+  "transcriptLogChannelId": "YOUR_TRANSCRIPT_LOG_CHANNEL_ID",
+  "ticketSupportRoleId": "YOUR_TICKET_SUPPORT_ROLE_ID",
+  "ticketCategoryId": "YOUR_TICKET_CATEGORY_ID",
+  "ticketTranscriptLogId": "YOUR_TICKET_TRANSCRIPT_LOG_ID",
+  "tempVoiceCategoryId": "YOUR_TEMP_VOICE_CATEGORY_ID",
+  "tempVoiceCreateChannelId": "YOUR_TEMP_VOICE_CREATE_CHANNEL_ID",
+  "tempVoiceControlChannelId": "YOUR_TEMP_VOICE_CONTROL_CHANNEL_ID",
+  "giveawayManagerRoles": ["YOUR_GIVEAWAY_MANAGER_ROLE_ID"],
+  "autoPublishChannelIds": [
+    "YOUR_AUTO_PUBLISH_CHANNEL_ID_1",
+    "YOUR_AUTO_PUBLISH_CHANNEL_ID_2"
   ],
+  "welcomeChannelIds": [
+    "YOUR_WELCOME_CHANNEL_ID_1",
+    "YOUR_WELCOME_CHANNEL_ID_2"
+  ],
+  "rankToRoleMapping": {
+    "Climber": "YOUR_CLIMBER_ROLE_ID",
+    "Beginner": "YOUR_BEGINNER_ROLE_ID",
+    "Amateur": "YOUR_AMATEUR_ROLE_ID",
+    "Intermediate": "YOUR_INTERMEDIATE_ROLE_ID",
+    "Advanced": "YOUR_ADVANCED_ROLE_ID",
+    "Expert": "YOUR_EXPERT_ROLE_ID",
+    "Elite": "YOUR_ELITE_ROLE_ID",
+    "Professional": "YOUR_PROFESSIONAL_ROLE_ID",
+    "Legendary": "YOUR_LEGENDARY_ROLE_ID",
+    "Champions": "YOUR_CHAMPIONS_ROLE_ID",
+    "Lunatic": "YOUR_LUNATIC_ROLE_ID"
+  },
+  "linkManagerRoles": ["YOUR_LINK_MANAGER_ROLE_ID"],
+  "verifiedRoleId": "YOUR_VERIFIED_ROLE_ID",
+  "verificationLogChannelId": "YOUR_VERIFICATION_LOG_CHANNEL_ID",
+  "levels": [
+    {
+      "name": "Climber",
+      "xp": 0
+    },
+    {
+      "name": "Beginner",
+      "xp": 10
+    },
+    {
+      "name": "Amateur",
+      "xp": 30
+    },
+    {
+      "name": "Intermediate",
+      "xp": 60
+    },
+    {
+      "name": "Advanced",
+      "xp": 110
+    },
+    {
+      "name": "Expert",
+      "xp": 200
+    },
+    {
+      "name": "Elite",
+      "xp": 360
+    },
+    {
+      "name": "Professional",
+      "xp": 600
+    },
+    {
+      "name": "Legendary",
+      "xp": 850
+    },
+    {
+      "name": "Champions",
+      "xp": 1000
+    },
+    {
+      "name": "Lunatic",
+      "xp": 1500
+    },
+    {
+      "name": "Supreme",
+      "xp": 5000
+    },
+    {
+      "name": "Galactic",
+      "xp": 6000
+    },
+    {
+      "name": "Eternal",
+      "xp": 7000
+    }
+  ],
+  "robloxLevelMapping": {
+    "Climber": 12345678,
+    "Beginner": 12345678,
+    "Amateur": 12345678,
+    "Intermediate": 12345678,
+    "Advanced": 12345678,
+    "Expert": 12345678,
+    "Elite": 12345678,
+    "Professional": 12345678,
+    "Legendary": 12345678,
+    "Champions": 12345678,
+    "Lunatic": 12345678
+  },
+  "achievements": [
+    {
+      "id": 1,
+      "name": "1️⃣Pioneer",
+      "description": "Users who participated in the first expedition on Mooncrest.",
+      "roleId": "YOUR_ACHIEVEMENT_ROLE_ID"
+    },
+    {
+      "id": 2,
+      "name": "🔥5x Streak Expo",
+      "description": "Participation in 5 consecutive expeditions.",
+      "roleId": "YOUR_ACHIEVEMENT_ROLE_ID"
+    }
+  ],
+  "guideManagerRoles": ["YOUR_GUIDE_MANAGER_ROLE_ID"],
+  "sarManagerRoles": ["YOUR_SAR_MANAGER_ROLE_ID"],
+  "guideRanks": [
+    {
+      "name": "Probation Guide",
+      "points": 1,
+      "roleId": "YOUR_GUIDE_RANK_ROLE_ID"
+    },
+    {
+      "name": "Lead Guide",
+      "points": 75,
+      "roleId": "YOUR_GUIDE_RANK_ROLE_ID"
+    }
+  ],
+  "sarRanks": [
+    {
+      "name": "SAR Trainee",
+      "points": 1,
+      "roleId": "YOUR_SAR_RANK_ROLE_ID"
+    },
+    {
+      "name": "SAR Commander",
+      "points": 300,
+      "roleId": "YOUR_SAR_RANK_ROLE_ID"
+    }
+  ],
+  "difficulties": ["Easy", "Medium", "Hard", "Extreme"],
+  "mountains": ["Mount Example by Author", "Mount Another by Studio"],
   "note": "Copy this file to config.json and fill in your actual server/role IDs"
 }

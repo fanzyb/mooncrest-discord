@@ -1,52 +1,36 @@
 # 🌙 Mooncrest Discord Bot
 
-Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **expedition tracking**, dan berbagai fitur community management untuk Roblox group.
+A comprehensive Discord bot designed for **Mooncrest** to manage **Lunar Points (XP)**, **ranking systems**, **expedition tracking**, and **Roblox group synchronization**.
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Key Features
 
 ### 🎯 XP & Ranking System
 
-- **Multi-command XP Management** (`/xp`, `/xpd`, `/batch`)
-  - `/xp` - Manage XP by Roblox username
-  - `/xpd` - Manage XP by Discord mention
-  - `/batch` - Bulk XP management for multiple users/roles
-- **Expedition Tracking** - Mountain history & difficulty statistics
-- **Auto Rank Sync** - Automatic Roblox group rank synchronization
-- **Weekly & Monthly Leaderboards** - Auto-reset tracking periods
-
-### 🏆 Achievement & Leaderboard
-
-- **Hall of Fame** - Achievement-based records
-- **Hall of Fame Records** - Historical weekly/monthly winners
-- **Multiple Leaderboards** - All-time, Weekly, Monthly, Guide Points
+- **Advanced XP Management**: Tools for adding, removing, or setting XP (`/xp`, `/xpd`, `/batch`).
+- **Auto Rank Sync**: Automatically synchronizes Discord roles with Roblox group ranks.
+- **Expedition Tracking**: Tracks user participation in mountain expeditions and difficulty statistics.
+- **Leaderboards**: Weekly, monthly, and all-time leaderboards with auto-reset capabilities.
 
 ### 👥 User Management
 
-- **Roblox Verification** (`/verify`, `/link`)
-- **Profile Updates** (`/update`, `/updateprofile`)
-- **Auto Role Assignment** - Based on rank/level
+- **Roblox Verification**: Securely links Discord accounts to Roblox users (`/verify`, `/link`).
+- **Profile Updates**: Keeps user data synced (`/update`, `/updateprofile`).
+- **Auto-Role Application**: Automatically assigns roles based on accumulated XP.
 
-### 🎁 Reward System
+### 🎁 Rewards & Achievements
 
-- **Guide Points** (`/guide`, `/reward`)
-- **Giveaway System** (`/giveaway`)
-- **Custom Rewards** with role-based permissions
+- **Guide Points System**: Tracks contributions from community guides.
+- **Hall of Fame**: Records achievements and historical winners (`/hall-of-fame`, `/hall-records`).
+- **Giveaway System**: Integrated giveaway management.
 
-### 🌐 Translation & Communication
+### 🌐 Community & AI
 
-- **Real-time Translation** (`/translate`) - Powered by Gemini AI
-- **Daily Motivational Quotes** (`/quote`) - AI-generated quotes
-- **Temporary Voice Channels** - Auto-create/delete
-- **Ticket System** with transcript support
-
-### 🛠️ Moderation
-
-- Kick, Ban, Mute, Warn
-- Message purge, Slowmode
-- Lock/Unlock channels
-- User info & moderation history
+- **AI Translation**: Real-time translation powered by Google Gemini (`/translate`).
+- **Daily Quotes**: AI-generated motivational quotes (`/quote`).
+- **Ticket System**: Support ticket management with transcript logging.
+- **Temp Voice Channels**: dynamic voice channel creation.
 
 ---
 
@@ -54,10 +38,10 @@ Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **
 
 ### Prerequisites
 
-- Node.js v18 or higher
-- Discord Bot Token
-- Firebase Project (Firestore)
-- Roblox Account Cookie (for rank sync & verification)
+- **Node.js** (v18 or higher)
+- **Firebase Project** (Firestore Database)
+- **Roblox Open Cloud API Key** (for group interactions)
+- **Gemini API Key** (optional, for AI features)
 
 ### Setup Steps
 
@@ -65,60 +49,51 @@ Discord bot untuk mengelola sistem **Lunar Points (XP)**, **ranking system**, **
 
    ```bash
    git clone https://github.com/fanzirfan/mooncrest-discord.git
-   cd mooncrest-bot
+   cd mooncrest-discord
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
-2b. **Install ESLint (Dev Dependency)**
-`bash
-    npm install --save-dev eslint @eslint/js globals
-    `
+3. **Environment Configuration**
+   Create a `.env` file in the root directory (copied from `.env.example`) and fill in your credentials:
 
-3. **Configure environment variables**
-
-   Copy `.env.example` to `.env` and fill in your credentials:
-
-   ```bash
-   cp .env.example .env
+   ```env
+   TOKEN=your_discord_bot_token
+   GUILD_ID=your_server_id
+   CLIENT_ID=your_bot_client_id
+   GEMINI_API_KEY=your_google_gemini_key
+   ROBLOX_OPENCLOUD_API_KEY=your_roblox_api_key
+   MONGO_URI=your_mongodb_connection_string
    ```
 
-   Required variables:
-   - `TOKEN` - Discord bot token
-   - `GUILD_ID` - Discord server/guild ID
-   - `CLIENT_ID` - Discord application client ID
-   - `GEMINI_API_KEY` - Google Gemini API key
-   - `ROBLOX_OPENCLOUD_API_KEY` - Roblox Open Cloud API Key
+4. **Firebase Setup**
+   - Create a project in the [Firebase Console](https://console.firebase.google.com/).
+   - Generate a **Service Account Key** (JSON).
+   - Rename the file to `firebase-adminsdk.json`.
+   - Place it in the **root directory** of the project.
+   - _Note: This file contains sensitive keys. DONT commit it to version control._
 
-4. **Configure server settings**
+5. **Bot Configuration**
+   - Ensure `src/config.json` exists and is properly configured.
+   - This file controls **Role IDs**, **Channel IDs**, **XP levels**, and **Mountain lists**.
+   - Review the file to match your server's channels and roles.
 
-   Copy `config.json.example` to `src/config.json`:
-
+6. **Start the Bot**
    ```bash
-   cp config.json.example src/config.json
+   npm start
    ```
 
-   Fill in your Discord server IDs, role IDs, and mountain list.
+### 👨‍💻 Development & Linting
 
-5. **Setup Firebase**
-   - Create a Firebase project
-   - Enable Firestore Database
-   - Download service account key JSON
-   - Save as `firebase-adminsdk.json` in root directory
-   - **⚠️ NEVER commit this file to Git!**
+To check for code style issues or errors:
 
-6. **Deploy slash commands**
-
-   ```bash
-   node index.js
-   ```
-
-7. **Development & Linting**
-   - Run lint check: `npm run lint`
-   - Start bot: `npm start`
+```bash
+npm run lint
+```
 
 ---
 
