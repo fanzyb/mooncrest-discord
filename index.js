@@ -15,7 +15,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
-import { randomUUID } from "crypto";
+
 
 // ==================================================================
 //  🤖 KONFIGURASI GEMINI AI
@@ -25,7 +25,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // Import modules
 import config from "./src/config.json" with { type: "json" };
-import { getRobloxGroupData, getLevel, syncRankRole, achievementsConfig, getRobloxUser } from "./src/utils/helpers.js";
+import { getRobloxGroupData, getLevel, syncRankRole, getRobloxUser } from "./src/utils/helpers.js";
 import RobloxOpenCloudHelper from "./helpers/RobloxOpenCloudHelper.js";
 import { handleComponentInteraction } from "./src/utils/components.js";
 import {
@@ -33,14 +33,13 @@ import {
     setLastAnnouncedMilestone,
     findUserByDiscordId,
     findUser,
-    saveUser,
-    saveWarning,
+
     findLeaderboardUsers,
     getAllTranslationChannels // Import this
 } from "./src/db/firestore.js";
 import { translateText } from "./src/utils/translationHandler.js"; // Import this
 
-import { sendModLog } from "./src/utils/modLogger.js";
+
 
 // --- Scheduler Mingguan & Bulanan ---
 import { initWeeklyScheduler } from "./src/utils/weeklyHandler.js";
@@ -148,7 +147,7 @@ async function checkMilestones() {
             try {
                 await channel.send({ content: "<@&1399343249834905631>", embeds: [embed] });
                 await setLastAnnouncedMilestone(nextMilestone);
-            } catch (e) { }
+            } catch (e) { console.error(e); }
         }
     }
 }
@@ -267,7 +266,7 @@ client.on("clientReady", async () => {
             const groupData = await getRobloxGroupData();
             const newStatus = `${groupData.name} with ${groupData.memberCount.toLocaleString()} Members`;
             client.user.setPresence({ activities: [{ name: newStatus, type: 3 }], status: "online" });
-        } catch (e) { }
+        } catch { }
     }
     updatePresence();
     setInterval(updatePresence, 1000 * 60 * 10);
@@ -362,7 +361,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                         if (channel) await channel.delete();
                         tempChannelTimeouts.delete(oldState.channel.id);
                         // console.log(`[TempVoice] Deleted ${oldState.channel.name} after 15s delay.`);
-                    } catch (err) {
+                    } catch {
                         // Channel might already be deleted
                         tempChannelTimeouts.delete(oldState.channel.id);
                     }
@@ -455,7 +454,7 @@ async function sendAuditLog(guild, embed) {
     try {
         const channel = await guild.channels.fetch(channelId);
         if (channel) await channel.send({ embeds: [embed] });
-    } catch (err) { }
+    } catch { }
 }
 
 client.on("guildMemberRemove", async (member) => {
@@ -502,7 +501,7 @@ client.on("messageDelete", async (message) => {
 //  🤖 GEMINI AI LOGIC
 // =====================================================
 let manualBookContent = "";
-try { manualBookContent = fs.readFileSync("./manual_book.txt", "utf8"); } catch (err) { manualBookContent = "Gunakan pengetahuan umum."; }
+try { manualBookContent = fs.readFileSync("./manual_book.txt", "utf8"); } catch { manualBookContent = "Gunakan pengetahuan umum."; }
 
 const GEMINI_TOOLS = [
     { function_declarations: [{ name: "manage_xp_roblox", description: "Manage XP using Roblox Usernames.", parameters: { type: "OBJECT", properties: { action: { type: "STRING", enum: ["add", "remove", "set", "bonus"] }, roblox_usernames: { type: "ARRAY", items: { type: "STRING" } }, amount: { type: "INTEGER" }, reason: { type: "STRING" } }, required: ["action", "roblox_usernames", "amount"] } }] },
@@ -575,10 +574,10 @@ async function askGemini(prompt, history = [], message, imagePart = null) {
     } catch (error) { console.error("[Gemini Error]", error); return "❌ System Error."; }
 }
 
-async function performBatchXpRoblox(args, message) { return `✅ Managed Roblox XP (Log sent)`; }
-async function performBatchXpDiscord(args, message) { return `✅ Managed Discord XP (Log sent)`; }
-async function performModeration(args, message) { return `✅ Moderation action executed.`; }
-async function performReward(args, message) { return `✅ Reward action executed.`; }
+async function performBatchXpRoblox(_args, _message) { return `✅ Managed Roblox XP (Log sent)`; }
+async function performBatchXpDiscord(_args, _message) { return `✅ Managed Discord XP (Log sent)`; }
+async function performModeration(_args, _message) { return `✅ Moderation action executed.`; }
+async function performReward(_args, _message) { return `✅ Reward action executed.`; }
 
 client.on("messageCreate", async (message) => {
     // --- AUTO PUBLISH (FIXED) ---
@@ -645,7 +644,7 @@ client.on("messageCreate", async (message) => {
     // --- AI Handler ---
     const isInterview = message.channel.name.toLowerCase().includes("interview");
     let isReply = false;
-    if (message.reference) { try { const ref = await message.fetchReference(); if (ref.author.id === client.user.id) isReply = true; } catch { } }
+    if (message.reference) { try { const ref = await message.fetchReference(); if (ref.author.id === client.user.id) isReply = true; } catch { /* ignore */ } }
     const hasPrefix = message.content.toLowerCase().startsWith("!ai");
     const hasImage = message.attachments.size > 0;
 
@@ -664,7 +663,7 @@ client.on("messageCreate", async (message) => {
                     history.push({ role: m.author.id === client.user.id ? "bot" : "user", message: m.content });
                 }
             });
-        } catch { }
+        } catch { /* ignore */ }
 
         let imagePart = null;
         if (hasImage) {

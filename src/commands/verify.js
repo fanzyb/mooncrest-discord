@@ -1,7 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle } from "discord.js";
 import {
     getRobloxUser,
-    isInRobloxGroup,
     performVerification,
     embedColor,
     syncRankRole

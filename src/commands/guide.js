@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { embedColor, getGuideLevel, syncDepartmentRole } from "../utils/helpers.js";
+import { getGuideLevel, syncDepartmentRole } from "../utils/helpers.js";
 import { findUserByDiscordId, saveUser } from "../db/firestore.js";
 import config from "../config.json" with { type: "json" };
 import { logError } from "../utils/errorLogger.js";
@@ -91,7 +91,7 @@ export async function execute(interaction) {
                     ).setTimestamp();
                 await logChannel.send({ embeds: [logEmbed] });
             }
-        } catch (logErr) {}
+        } catch { /* ignore */ }
 
     } catch (error) {
         logError(error, interaction, "guide");

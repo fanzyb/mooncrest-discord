@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { getHallRecords } from "../db/firestore.js";
 import { embedColor } from "../utils/helpers.js";
 import { logError } from "../utils/errorLogger.js";

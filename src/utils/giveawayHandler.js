@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
 import { getGiveaway, getGiveawayParticipants, updateGiveaway, addGiveawayParticipant, getAllRunningGiveaways } from "../db/firestore.js";
 import { logError } from "./errorLogger.js";
-import config from "../config.json" with { type: "json" };
+
 
 /**
  * Handles the "Join" button click for giveaways

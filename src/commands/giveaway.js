@@ -1,8 +1,8 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { parseDuration } from "../utils/parsing.js";
 import { saveGiveaway, getGiveaway, getGiveawayParticipants, updateGiveaway } from "../db/firestore.js";
 import { logError } from "../utils/errorLogger.js";
-import { pickWinners, endGiveaway } from "../utils/giveawayHandler.js";
+import { endGiveaway } from "../utils/giveawayHandler.js";
 import config from "../config.json" with { type: "json" };
 
 export const data = new SlashCommandBuilder()

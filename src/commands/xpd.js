@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { getRobloxUser, isInRobloxGroup, getLevel, embedColor, getRobloxRankName, getRobloxUserById } from "../utils/helpers.js";
+import { isInRobloxGroup, getLevel, embedColor, getRobloxUserById } from "../utils/helpers.js";
 import { findUserByDiscordId, saveUser } from "../db/firestore.js";
 import config from "../config.json" with { type: "json" };
 import { logError } from "../utils/errorLogger.js";
@@ -206,7 +206,7 @@ export async function execute(interaction) {
                 const logEmbed = new EmbedBuilder().setTitle(`📊 Lunar Points Log (${action.toUpperCase()})`).setColor(embedColor).addFields(logFields).setTimestamp();
                 await xpLogChannel.send({ embeds: [logEmbed] });
             }
-        } catch (logErr) { }
+        } catch { /* ignore */ }
 
     } catch (error) {
         logError(error, interaction, "xpd");

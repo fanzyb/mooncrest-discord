@@ -259,7 +259,7 @@ class RobloxOpenCloudHelper {
         try {
             const membership = await this.getUserMembership(userId, groupId);
             return membership !== null;
-        } catch (error) {
+        } catch {
             return false;
         }
     }
@@ -292,25 +292,25 @@ class RobloxOpenCloudHelper {
      * These are not needed in Open Cloud but kept for backward compatibility
      */
 
-    async getUserInfo(userId) {
+    async getUserInfo(_userId) {
         // This would need the Users API, not available in Groups API
         console.warn('[OpenCloud] getUserInfo not available in Open Cloud Groups API');
         return null;
     }
 
-    async getUserByUsername(username) {
+    async getUserByUsername(_username) {
         // This would need the Users API, not available in Groups API
         console.warn('[OpenCloud] getUserByUsername not available in Open Cloud Groups API');
         return null;
     }
 
-    async getPlayerThumbnail(userId, size, format, isCircular) {
+    async getPlayerThumbnail(_userId, _size, _format, _isCircular) {
         // Thumbnails API is separate and may not need authentication
         console.warn('[OpenCloud] getPlayerThumbnail not available in Open Cloud Groups API');
         return null;
     }
 
-    async getPlayerInfo(userId) {
+    async getPlayerInfo(_userId) {
         // This would need the Users/Friends API, not available in Groups API
         console.warn('[OpenCloud] getPlayerInfo not available in Open Cloud Groups API');
         return null;

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import config from "../config.json" with { type: "json" };
-import { findUser, findUserByDiscordId, findLeaderboardUsers } from "../db/firestore.js";
+import { findUserByDiscordId, findLeaderboardUsers } from "../db/firestore.js";
 import { getLevel } from "../utils/helpers.js";
 import { logError } from "../utils/errorLogger.js";
 

@@ -161,27 +161,30 @@ export async function handleTempVoiceInteraction(interaction) {
                     await interaction.reply({ content: "🔒 Your channel is now **Private**.", ephemeral: true });
                     break;
 
-                case "tv_edit_channel":
+                case "tv_edit_channel": {
                     const modalEdit = new ModalBuilder().setCustomId("tv_modal_edit").setTitle("Edit Channel");
                     const nameInput = new TextInputBuilder().setCustomId("tv_edit_name").setLabel("Channel Name").setStyle(TextInputStyle.Short).setValue(channel.name).setRequired(true);
                     const limitInput = new TextInputBuilder().setCustomId("tv_edit_limit").setLabel("User Limit (0 = Unlimited)").setStyle(TextInputStyle.Short).setValue(String(channel.userLimit)).setRequired(true);
                     modalEdit.addComponents(new ActionRowBuilder().addComponents(nameInput), new ActionRowBuilder().addComponents(limitInput));
                     await interaction.showModal(modalEdit);
                     break;
+                }
 
-                case "tv_add_user":
+                case "tv_add_user": {
                     const modalAdd = new ModalBuilder().setCustomId("tv_modal_add_user").setTitle("Add User to Channel");
                     const addInput = new TextInputBuilder().setCustomId("tv_user_id").setLabel("User ID to Add").setStyle(TextInputStyle.Short).setPlaceholder("Paste the user's Discord ID here.").setRequired(true);
                     modalAdd.addComponents(new ActionRowBuilder().addComponents(addInput));
                     await interaction.showModal(modalAdd);
                     break;
+                }
 
-                case "tv_remove_user":
+                case "tv_remove_user": {
                     const modalRemove = new ModalBuilder().setCustomId("tv_modal_remove_user").setTitle("Remove User from Channel");
                     const removeInput = new TextInputBuilder().setCustomId("tv_user_id").setLabel("User ID to Remove/Kick").setStyle(TextInputStyle.Short).setPlaceholder("Paste the user's Discord ID here.").setRequired(true);
                     modalRemove.addComponents(new ActionRowBuilder().addComponents(removeInput));
                     await interaction.showModal(modalRemove);
                     break;
+                }
             }
         }
 

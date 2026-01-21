@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from "discord.js";
 import { createTranscript } from "discord-html-transcripts";
 import config from "../config.json" with { type: "json" };
 import { logError } from "../utils/errorLogger.js";

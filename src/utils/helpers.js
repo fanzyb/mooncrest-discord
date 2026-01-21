@@ -79,7 +79,7 @@ export async function getRobloxAvatar(userId) {
         const data = await res.json();
         if (!data.data || data.data.length === 0) return null;
         return data.data[0].imageUrl;
-    } catch (e) {
+    } catch {
         return null;
     }
 }
@@ -91,7 +91,7 @@ export async function isInRobloxGroup(userId, groupId = config.groupId) {
         const data = await res.json();
         if (!data || !data.data) return false;
         return data.data.some(g => g.group.id === groupId);
-    } catch (e) {
+    } catch {
         return false;
     }
 }

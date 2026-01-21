@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { embedColor, getSarLevel, syncDepartmentRole } from "../utils/helpers.js";
+import { getSarLevel, syncDepartmentRole } from "../utils/helpers.js";
 import { findUserByDiscordId, saveUser } from "../db/firestore.js";
 import config from "../config.json" with { type: "json" };
 // [REVISI] Hapus import deptRanks

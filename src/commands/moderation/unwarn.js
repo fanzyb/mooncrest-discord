@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 import { sendModLog } from "../../utils/modLogger.js";
 import { deleteWarningByCaseId } from "../../db/firestore.js"; // <-- Fungsi baru
 

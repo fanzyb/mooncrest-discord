@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { findUserByDiscordId, saveUser } from "../db/firestore.js";
-import { getRobloxUser, getRobloxUserById, embedColor } from "../utils/helpers.js";
+import { getRobloxUserById, embedColor } from "../utils/helpers.js";
 import { logError } from "../utils/errorLogger.js";
 
 export const data = new SlashCommandBuilder()
@@ -26,7 +26,7 @@ export async function execute(interaction) {
         }
 
         // 2. Update Database
-        const oldUsername = userDb.robloxUsername;
+        // const oldUsername = userDb.robloxUsername;
         userDb.robloxUsername = latestRobloxData.name;
         await saveUser(userDb);
 
@@ -38,7 +38,7 @@ export async function execute(interaction) {
             try {
                 await member.setNickname(newNick);
                 nicknameStatus = "Updated";
-            } catch (e) {
+            } catch {
                 nicknameStatus = `Failed (I might lack permissions)`;
             }
         } else {

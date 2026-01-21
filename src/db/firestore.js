@@ -344,7 +344,7 @@ export async function saveMonthlyWinner(category, userData, month, year, value, 
 
     // Get existing document if it exists
     const docRef = db.collection(HALL_OF_FAME_COLLECTION).doc(docId);
-    const doc = await docRef.get();
+    await docRef.get();
 
     const timestamp = new Date(`${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`);
 
@@ -403,7 +403,7 @@ export async function saveWeeklyWinner(category, userData, weekStartDate, value,
 
     // Get existing document if it exists
     const docRef = db.collection(HALL_OF_FAME_COLLECTION).doc(docId);
-    const doc = await docRef.get();
+    await docRef.get();
 
     const timestamp = new Date(`${weekStartDate}T00:00:00.000Z`);
     const year = new Date(weekStartDate).getFullYear();

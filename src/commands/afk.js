@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { getAfkStatus, saveAfkStatus, deleteAfkStatus } from "../db/firestore.js"; // Pastikan deleteAfkStatus di-import
+import { getAfkStatus, saveAfkStatus } from "../db/firestore.js"; // Pastikan deleteAfkStatus di-import
 import { logError } from "../utils/errorLogger.js";
 
 export const data = new SlashCommandBuilder()

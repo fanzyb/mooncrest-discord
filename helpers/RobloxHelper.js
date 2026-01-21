@@ -265,7 +265,7 @@ class RobloxHelper {
         try {
             const rank = await this.getUserRankInGroup(userId, groupId);
             return rank !== null;
-        } catch (error) {
+        } catch {
             return false;
         }
     }

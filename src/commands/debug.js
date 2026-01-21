@@ -30,7 +30,7 @@ export async function execute(interaction) {
     let commandsCount = 0;
     try {
         commandsCount = interaction.client.application?.commands?.cache?.size ?? (await interaction.client.application.commands.fetch()).size;
-    } catch (e) {
+    } catch {
         commandsCount = 0;
     }
 
