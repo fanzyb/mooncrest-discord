@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import serviceAccount from "../../firebase-adminsdk.json" with { type: "json" };
+import { syncDiscordWidget } from "../utils/widgetSync.js";
 
 let db;
 try {
@@ -36,6 +37,20 @@ export async function saveUser(userData) {
     // Use set without merge to properly handle nested object deletions
     // This ensures deleted keys in expeditionHistory and difficultyStats are actually removed
     await db.collection(USERS_COLLECTION).doc(docId).set(userData);
+
+    // Auto-sync Discord Profile Widget if enabled
+    if (userData.discordId && userData.widgetEnabled) {
+        countUsersWhere("xp", ">", userData.xp || 0).then(count => {
+            const rank = count + 1;
+            syncDiscordWidget(userData.discordId, userData, rank).catch(err => {
+                console.error("[Firestore] Widget sync background error:", err);
+            });
+        }).catch(err => {
+            console.error("[Firestore] Error counting rank for widget sync:", err);
+            syncDiscordWidget(userData.discordId, userData).catch(() => {});
+        });
+    }
+
     return userData;
 }
 
@@ -113,7 +128,7 @@ export async function countTotalUsers() {
 export async function getAllUsers() {
     if (!db) return [];
     const snapshot = await db.collection(USERS_COLLECTION).get();
-    return snapshot.docs.map(doc => doc.data());
+    return snapshot.docs.map(doc => ({ ...doc.data(), robloxId: doc.id }));
 }
 
 export async function findLeaderboardUsers(sortField, limit, offset) {

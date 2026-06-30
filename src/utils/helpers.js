@@ -84,6 +84,17 @@ export async function getRobloxAvatar(userId) {
     }
 }
 
+export async function getRobloxAvatarBust(userId) {
+    try {
+        const res = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-bust?userIds=${userId}&size=420x420&format=png`);
+        const data = await res.json();
+        if (!data.data || data.data.length === 0) return null;
+        return data.data[0].imageUrl;
+    } catch {
+        return null;
+    }
+}
+
 export async function isInRobloxGroup(userId, groupId = config.groupId) {
     // ... (kode tetap sama) ...
     try {

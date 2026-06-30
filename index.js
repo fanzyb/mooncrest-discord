@@ -33,11 +33,15 @@ import {
     setLastAnnouncedMilestone,
     findUserByDiscordId,
     findUser,
-
+    countUsersWhere,
+    getAllUsers,
     findLeaderboardUsers,
     getAllTranslationChannels // Import this
 } from "./src/db/firestore.js";
 import { translateText } from "./src/utils/translationHandler.js"; // Import this
+import { syncDiscordWidget } from "./src/utils/widgetSync.js";
+import { startOAuthServer } from "./src/utils/oauthServer.js";
+import { handleWidgetButton } from "./src/commands/widget.js";
 
 
 
@@ -102,11 +106,12 @@ async function deployCommands() {
     const commands = [];
     client.commands.forEach(cmd => { if (cmd.data && cmd.execute) commands.push(cmd.data.toJSON()); });
     const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+    const targetGuildId = process.env.GUILD_ID || config.guildId;
     try {
         console.log(`[Deploy] Clearing global commands...`);
         await rest.put(Routes.applicationCommands(client.user.id), { body: [] });
-        console.log(`[Deploy] Refreshing ${commands.length} guild commands...`);
-        await rest.put(Routes.applicationGuildCommands(client.user.id, config.guildId), { body: commands });
+        console.log(`[Deploy] Refreshing ${commands.length} guild commands in guild ${targetGuildId}...`);
+        await rest.put(Routes.applicationGuildCommands(client.user.id, targetGuildId), { body: commands });
         console.log(`[Deploy] Success!`);
     } catch (error) { console.error('[Deploy Error]', error); }
 }
@@ -273,7 +278,42 @@ client.on("clientReady", async () => {
 
     checkMilestones();
     setInterval(checkMilestones, 1000 * 60 * 60);
+
+    // Initialize widget auto-sync scheduler
+    initWidgetScheduler(client);
+
+    // Initialize local OAuth server for member migration
+    startOAuthServer(client);
 });
+
+// --- Widget Auto-Sync Scheduler ---
+function initWidgetScheduler(client) {
+    console.log("[WidgetScheduler] Widget auto-sync scheduler initialized.");
+    
+    // Helper function to run the sync for all active widgets
+    async function runSync() {
+        try {
+            const allUsers = await getAllUsers();
+            const activeUsers = allUsers.filter(u => u.discordId && u.widgetEnabled);
+            if (activeUsers.length === 0) return;
+            console.log(`[WidgetScheduler] Auto-syncing ${activeUsers.length} profile widgets...`);
+            for (const user of activeUsers) {
+                const rank = (await countUsersWhere("xp", ">", user.xp || 0)) + 1;
+                await syncDiscordWidget(user.discordId, user, rank);
+                // 2 second delay to avoid hitting rate limits
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+        } catch (error) {
+            console.error("[WidgetScheduler] Auto-sync failed:", error);
+        }
+    }
+
+    // Run 15 seconds after startup
+    setTimeout(runSync, 15000);
+
+    // Run every 6 hours
+    setInterval(runSync, 1000 * 60 * 60 * 6);
+}
 
 // ----------------- Event: interactionCreate -----------------
 client.on("interactionCreate", async (interaction) => {
@@ -287,6 +327,7 @@ client.on("interactionCreate", async (interaction) => {
             if (interaction.customId.startsWith('lb_')) return await handleComponentInteraction(interaction);
             if (interaction.customId.startsWith('ticket_')) return await handleTicketButton(interaction);
             if (interaction.customId.startsWith('tv_')) return await handleTempVoiceInteraction(interaction);
+            if (interaction.customId.startsWith('widget_')) return await handleWidgetButton(interaction);
         }
         if (interaction.isModalSubmit()) {
             if (interaction.customId === 'verify_modal_submit') return await verifyHandleModal(interaction);
